@@ -34,11 +34,11 @@ const App = () => {
         const loggedUserJSON = window
             .localStorage
             .getItem('loggedNoteappUser')
-        if (loggedUserJSON) {
+     /*   if (loggedUserJSON) {
             const user = JSON.parse(loggedUserJSON)
             setUser(user)
             blogService.setToken(user.token)
-        }
+        }*/
     }, [])
 
     const addBlog = (event) => {
@@ -132,10 +132,10 @@ const App = () => {
     )
 
     const logOut = (event) => {
+        event.preventDefault()
         window
             .localStorage
-            .setItem('loggedNoteappUser', null);
-        setUser(null);
+            .removeItem('loggedNoteappUser')
 
     }
 
@@ -148,7 +148,7 @@ const App = () => {
                 : <div>
                     <p>{user.name}
                         logged-in
-                        <button type="button" onClick={logOut}>logout</button>
+                        <button onClick={logOut}>logout</button>
                     </p>
 
                     <h2>blogs</h2>
