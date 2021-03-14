@@ -30,6 +30,17 @@ const App = () => {
             .then(blogs => setBlogs(blogs))
     }, [])
 
+    useEffect(() => {
+        const loggedUserJSON = window
+            .localStorage
+            .getItem('loggedNoteappUser')
+        if (loggedUserJSON) {
+            const user = JSON.parse(loggedUserJSON)
+            setUser(user)
+            blogService.setToken(user.token)
+        }
+    }, [])
+
     const addBlog = (event) => {
         event.preventDefault()
         const blogObject = {
@@ -72,6 +83,9 @@ const App = () => {
         event.preventDefault()
         try {
             const user = await loginService.login({username, password})
+            window
+                .localStorage
+                .setItem('loggedNoteappUser', JSON.stringify(user))
             blogService.setToken(user.token)
             setUser(user)
             setUsername('')
