@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import Blog from './components/Blog'
-import Notification from './components/Notification'
+import Error from './components/Error'
 import blogService from './services/blogs'
 import loginService from './services/login'
 
@@ -131,15 +131,26 @@ const App = () => {
         </form>
     )
 
+    const logOut = (event) => {
+        window
+            .localStorage
+            .setItem('loggedNoteappUser', null);
+        setUser(null);
+
+    }
+
     return (
         <div>
 
-            <Notification message={errorMessage}/> {user === null
+            <Error message={errorMessage}/> {user === null
 
                 ? loginForm()
                 : <div>
                     <p>{user.name}
-                        logged-in</p>
+                        logged-in
+                        <button type="button" onClick={logOut}>logout</button>
+                    </p>
+
                     <h2>blogs</h2>
                     {blogs.map(blog => <Blog key={blog.id} blog={blog}/>)}
 
