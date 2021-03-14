@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import Blog from './components/Blog'
 import Error from './components/Error'
+import Notification from './components/Notification'
 import blogService from './services/blogs'
 import loginService from './services/login'
 
@@ -23,6 +24,8 @@ const App = () => {
         setUser] = useState(null)
     const [errorMessage,
         setErrorMessage] = useState(null)
+    const [message,
+        setMessage] = useState(null)
 
     useEffect(() => {
         blogService
@@ -34,11 +37,11 @@ const App = () => {
         const loggedUserJSON = window
             .localStorage
             .getItem('loggedNoteappUser')
-     /*   if (loggedUserJSON) {
+        if (loggedUserJSON) {
             const user = JSON.parse(loggedUserJSON)
             setUser(user)
             blogService.setToken(user.token)
-        }*/
+        }
     }, [])
 
     const addBlog = (event) => {
@@ -58,6 +61,10 @@ const App = () => {
                 setNewAuthor('')
                 setNewUrl('')
                 setNewLikes('')
+                setMessage(`Added blog ${returnedBlog.title} by ${returnedBlog.author}`)
+                setTimeout(() => {
+                    setMessage(null)
+                }, 5000)
             })
     }
 
@@ -132,16 +139,16 @@ const App = () => {
     )
 
     const logOut = (event) => {
-        event.preventDefault()
         window
             .localStorage
             .removeItem('loggedNoteappUser')
+        setUser(null)
 
     }
 
     return (
         <div>
-
+            <Notification message={message}/>
             <Error message={errorMessage}/> {user === null
 
                 ? loginForm()
@@ -160,7 +167,7 @@ const App = () => {
 }
 
         </div>
-    )
+    );
 }
 
-export default App
+export default App;
