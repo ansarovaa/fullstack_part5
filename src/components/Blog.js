@@ -24,10 +24,7 @@ const Blog = ({blog}) => {
                     ? 'Hide'
                     : 'View'}
             </button>
-            {isVisible && ( <> <p>{blog.url}</p> < p > Likes {blog.likes} < button > Like < /button> </p> <p>
-                by
-
-            </p> </>
+            {isVisible && ( <> <p>{blog.url}</p> < p > Likes {blog.likes} < button > Like </button> </p> </>
       )}
         </div>
 
