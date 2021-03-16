@@ -1,4 +1,6 @@
 import React, {useState} from 'react'
+import PropTypes from 'prop-types'
+
 const Blog = ({blog, onLikeClick, authUser, onRemoveClick, user}) => {
     const blogStyle = {
         paddingTop: 10,
@@ -7,12 +9,17 @@ const Blog = ({blog, onLikeClick, authUser, onRemoveClick, user}) => {
         borderWidth: 1,
         marginBottom: 5
     }
+    
     const [isVisible,
         setVisible] = useState(false);
 
     const handleToggle = () => {
         setVisible(!isVisible);
     }
+
+    Blog.propTypes = {
+        buttonLabel: PropTypes.string.isRequired
+      }
 
 
     return (
@@ -25,7 +32,7 @@ const Blog = ({blog, onLikeClick, authUser, onRemoveClick, user}) => {
                     ? 'Hide'
                     : 'View'}
             </button>
-            {isVisible && ( <> <p>{blog.url}</p> < p > Likes {blog.likes} < button onClick = {onLikeClick.bind(null, blog.id)} className = 'btn ml-8'> Like </button> by blog.user.name</p></>)}
+            {isVisible && ( <> <p>{blog.url}</p> < p > Likes {blog.likes} < button onClick = {onLikeClick.bind(null, blog.id)} className = 'btn ml-8'>Like</button> by blog.user.name</p></>)}
             {authUser.username === blog.user.username && (
             <button onClick={onRemoveClick.bind(
                 null,
