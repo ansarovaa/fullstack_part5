@@ -150,6 +150,35 @@ const App = () => {
 
     }
 
+    const handleBlogLikeClick = async(id) => {
+        const blogToUpdate = blogs.find((item) => item.id === id);
+        if (blogToUpdate) {
+            try {
+                const likes = blogToUpdate.likes
+                    ? blogToUpdate.likes + 1
+                    : 1;
+                const updatedBlog = {
+                    ...blogToUpdate,
+                    likes
+                };
+                const response = await blogService.updateBlog(id, updatedBlog);
+                if (response) {
+                    const updatedBlogList = blogs.map((item) => item.id === id
+                        ? updatedBlog
+                        : item);
+                    setBlogs(updatedBlogList);
+                }
+            } catch (error) {
+                const {data, statusText} = error.response;
+                setMessage({
+                    message: data.error || statusText,
+                    type: 'unsuccessful'
+                });
+                console.warn(error);
+            }
+        }
+    };
+
     return (
         <div>
             <Notification message={message}/>
@@ -163,7 +192,7 @@ const App = () => {
                     </p>
 
                     <h2>blogs</h2>
-                    {blogs.map(blog => <Blog key={blog.id} blog={blog}/>)}
+                    {blogs.map(blog => <Blog key={blog.id} blog={blog} onLikeClick={handleBlogLikeClick}/>)}
                     <Togglable buttonLabel="Show Add blog form">
                         <AddBlog
                             addBlog={addBlog}

@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-const Blog = ({blog}) => {
+const Blog = ({blog, onLikeClick}) => {
     const blogStyle = {
         paddingTop: 10,
         paddingLeft: 2,
@@ -24,8 +24,10 @@ const Blog = ({blog}) => {
                     ? 'Hide'
                     : 'View'}
             </button>
-            {isVisible && ( <> <p>{blog.url}</p> < p > Likes {blog.likes} < button > Like </button> </p> </>
-      )}
+            {isVisible && ( <> <p>{blog.url}</p> < p > Likes {blog.likes} < button onClick = {
+                onLikeClick.bind(null, blog.id)
+            }
+            className = 'btn ml-8' > Like </button> </p> </>)}
         </div>
 
     )
