@@ -179,6 +179,24 @@ const App = () => {
         }
     };
 
+    const handleBlogRemoveClick = async(id, title, author) => {
+        const message = `Remove blog ${title} by ${author}`;
+        if (window.confirm(message)) {
+            try {
+                await blogService.deleteBlog(id);
+                const updatedBlogList = blogs.filter((item) => item.id !== id);
+                setBlogs(updatedBlogList);
+            } catch (error) {
+                const {data, statusText} = error.response;
+                setMessage({
+                    message: data.error || statusText,
+                    type: 'unsuccessful'
+                });
+                console.warn(error);
+            }
+        }
+    };
+
     return (
         <div>
             <Notification message={message}/>
@@ -192,7 +210,12 @@ const App = () => {
                     </p>
 
                     <h2>blogs</h2>
-                    {blogs.sort((first, second) => second.likes - first.likes).map(blog => <Blog key={blog.id} blog={blog} onLikeClick={handleBlogLikeClick}/>)}
+                    {blogs.sort((first, second) => second.likes - first.likes).map(blog => <Blog
+                        key={blog.id}
+                        blog={blog}
+                        onLikeClick={handleBlogLikeClick}
+                        onRemoveClick={handleBlogRemoveClick}
+                        authUser={user}/>)}
                     <Togglable buttonLabel="Show Add blog form">
                         <AddBlog
                             addBlog={addBlog}

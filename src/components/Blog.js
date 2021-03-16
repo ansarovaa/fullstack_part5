@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-const Blog = ({blog, onLikeClick}) => {
+const Blog = ({blog, onLikeClick, authUser, onRemoveClick, user}) => {
     const blogStyle = {
         paddingTop: 10,
         paddingLeft: 2,
@@ -14,6 +14,7 @@ const Blog = ({blog, onLikeClick}) => {
         setVisible(!isVisible);
     }
 
+
     return (
 
         <div style ={blogStyle}>
@@ -24,10 +25,14 @@ const Blog = ({blog, onLikeClick}) => {
                     ? 'Hide'
                     : 'View'}
             </button>
-            {isVisible && ( <> <p>{blog.url}</p> < p > Likes {blog.likes} < button onClick = {
-                onLikeClick.bind(null, blog.id)
-            }
-            className = 'btn ml-8' > Like </button> </p> </>)}
+            {isVisible && ( <> <p>{blog.url}</p> < p > Likes {blog.likes} < button onClick = {onLikeClick.bind(null, blog.id)} className = 'btn ml-8'> Like </button> </p></>)}
+            {authUser.username === blog.username && (
+            <button onClick={onRemoveClick.bind(
+                null,
+                blog.id,
+                blog.title,
+                blog.author
+              )} className='btn mt-12 blog-item-remove-btn'>Remove</button>)}
         </div>
 
     )
