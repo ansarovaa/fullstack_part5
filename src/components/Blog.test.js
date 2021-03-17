@@ -35,4 +35,25 @@ describe('<Blog />', () => {
     expect(queryByText(blog.likes + '')).toBe(null)
   })
 
+  test('the url and likes are shown when the button controlling the shown details has been clicked', () => {
+    const { container, getByText } = render(
+      <Blog
+        blog={blog}
+        onLikeClick={onLikeClick}
+        onRemoveClick={onRemoveClick}
+        authUser={authUser}
+      />
+    )
+
+    const viewButton = getByText(/View/i, {
+      selector: 'button',
+    })
+
+    fireEvent.click(viewButton)
+
+    expect(container).toHaveTextContent('Like')
+    expect(container).toHaveTextContent(blog.url)
+    expect(container).toHaveTextContent(blog.likes)
+  })
+
 })

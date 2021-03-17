@@ -17,11 +17,6 @@ const Blog = ({ blog, onLikeClick, authUser, onRemoveClick, user }) => {
     setVisible(!isVisible)
   }
 
-  Blog.propTypes = {
-    buttonLabel: PropTypes.string.isRequired
-  }
-
-
   return (
 
     <div style ={blogStyle} className='blog'>
