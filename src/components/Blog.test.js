@@ -56,4 +56,32 @@ describe('<Blog />', () => {
     expect(container).toHaveTextContent(blog.likes)
   })
 
+  test('if the like button is clicked twice, the event handler the component received as props is called twice', () => {
+    const { container, getByText } = render(
+      <Blog
+        blog={blog}
+        onLikeClick={onLikeClick}
+        onRemoveClick={onRemoveClick}
+        authUser={authUser}
+      />
+    )
+
+    const viewButton = getByText(/View/i, {
+      selector: 'button',
+    })
+
+    fireEvent.click(viewButton)
+
+    expect(container).toHaveTextContent('Like')
+
+    const likeButton = getByText(/like/i, {
+      selector: 'button',
+    })
+
+    fireEvent.click(likeButton)
+    fireEvent.click(likeButton)
+
+    expect(onLikeClick).toHaveBeenCalledTimes(2)
+  })
+
 })
