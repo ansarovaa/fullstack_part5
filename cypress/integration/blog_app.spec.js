@@ -42,11 +42,22 @@ describe('Blog app', function() {
     it('A blog can be created', function() {
       cy.contains('Show Add blog form').click()
       cy.get('#title').type('a note created by cypress')
-      cy.get('#author').type('Koldun Dima')
+      cy.get('#author').type('Koldun')
       cy.get('#url').type('avk.com')
       cy.get('#like').type('4')
       cy.contains('save').click()
       cy.contains('a note created by cypress')
+    })
+
+    it('A blog can be liked', function() {
+      cy.contains('Show Add blog form').click()
+      cy.get('#title').type('a note created by cypress')
+      cy.get('#author').type('Koldun')
+      cy.get('#url').type('avk.com')
+      cy.get('#like').type('4')
+      cy.contains('save').click()
+      cy.contains('View').click()
+      cy.contains('Like').click()
     })
   })
 })
