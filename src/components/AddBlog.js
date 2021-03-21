@@ -6,7 +6,7 @@ const AddBlog = ({ addBlog, newTitle, newAuthor, newUrl, newLikes, handleAuthorC
         <div>title<input id = "title" value={newTitle} onChange={handleTitleChange}/></div>
         <div>author<input id = "author" value={newAuthor} onChange={handleAuthorChange}/></div>
         <div>url<input id = "url" value={newUrl} onChange={handleUrlChange}/></div>
-        <div>likes<input value={newLikes} onChange={handleLikesChange}/></div>
+        <div>likes<input id = "like" value={newLikes} onChange={handleLikesChange}/></div>
         <button type="submit">save</button>
       </form>
     </div>

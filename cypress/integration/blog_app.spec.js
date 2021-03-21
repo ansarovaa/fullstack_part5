@@ -31,4 +31,22 @@ describe('Blog app', function() {
       cy.get('.error')
     })
   })
+
+  describe('When logged in', function() {
+    beforeEach(function() {
+      cy.get('#username').type('mluukkai')
+      cy.get('#password').type('salainen')
+      cy.get('#login-button').click()
+    })
+
+    it('A blog can be created', function() {
+      cy.contains('Show Add blog form').click()
+      cy.get('#title').type('a note created by cypress')
+      cy.get('#author').type('Koldun Dima')
+      cy.get('#url').type('avk.com')
+      cy.get('#like').type('4')
+      cy.contains('save').click()
+      cy.contains('a note created by cypress')
+    })
+  })
 })
