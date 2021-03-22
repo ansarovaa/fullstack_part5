@@ -27,7 +27,8 @@ const Blog = ({ blog, onLikeClick, authUser, onRemoveClick, user }) => {
           ? 'Hide'
           : 'View'}
       </button>
-      {isVisible && ( <> <p>{blog.url}</p> < p > Likes {blog.likes} < button onClick = {onLikeClick.bind(null, blog.id)} className = 'btn ml-8'>Like</button> by blog.user.name</p></>)}
+      {isVisible && ( <> <p>{blog.url}</p> <p> Likes {blog.likes} < button onClick = {onLikeClick.bind(null, blog.id)}
+        className = 'btn ml-8'>Like</button> by {blog.user.username}</p></>)}
       {authUser.username === blog.user.username && (
         <button onClick={onRemoveClick.bind(
           null,

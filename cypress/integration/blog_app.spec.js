@@ -6,7 +6,13 @@ describe('Blog app', function() {
       username: 'mluukkai',
       password: 'salainen'
     }
+    const user1 = {
+      name: 'Anar Ansarova',
+      username: 'test',
+      password: 'test'
+    }
     cy.request('POST', 'http://localhost:3003/api/users/', user)
+    cy.request('POST', 'http://localhost:3003/api/users/', user1)
     cy.visit('http://localhost:3000')
   })
 
@@ -34,9 +40,7 @@ describe('Blog app', function() {
 
   describe('When logged in', function() {
     beforeEach(function() {
-      cy.get('#username').type('mluukkai')
-      cy.get('#password').type('salainen')
-      cy.get('#login-button').click()
+      cy.login({ username: 'mluukkai', password: 'salainen' })
     })
 
     it('A blog can be created', function() {
@@ -59,5 +63,30 @@ describe('Blog app', function() {
       cy.contains('View').click()
       cy.contains('Like').click()
     })
+
   })
+  describe('Blog manipulation', function() {
+    beforeEach(function() {
+      cy.login({ username: 'mluukkai', password: 'salainen' })
+      cy.createBlog({
+        title: 'another note cypress',
+        author: 'Bilan',
+        url: 'www.vk.com',
+        likes: 4
+      })
+    })
+
+    it('A blog can be removed by its author', function() {
+      cy.contains('Remove').click()
+    })
+   
+    it('A blog can not be removed by author', function() {
+      cy.get('#logout').click()
+      cy.login({ username: 'test', password: 'test' })
+      cy.get('Remove').should('not.exist')
+    })
+
+  })
+
+
 })
