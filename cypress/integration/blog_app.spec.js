@@ -69,8 +69,8 @@ describe('Blog app', function() {
     beforeEach(function() {
       cy.login({ username: 'mluukkai', password: 'salainen' })
       cy.createBlog({
-        title: 'another note cypress',
-        author: 'Bilan',
+        title: 'title 1',
+        author: 'author 1',
         url: 'www.vk.com',
         likes: 4
       })
@@ -79,11 +79,47 @@ describe('Blog app', function() {
     it('A blog can be removed by its author', function() {
       cy.contains('Remove').click()
     })
-   
+
     it('A blog can not be removed by author', function() {
       cy.get('#logout').click()
       cy.login({ username: 'test', password: 'test' })
       cy.get('Remove').should('not.exist')
+    })
+
+    it('a blogs are in descending order', function(){
+      const blogsArray = [
+        {
+          title: 'title 2',
+          author: 'author 2',
+          url: 'www.vk.com',
+          likes: 3
+        },
+        {
+          title: 'title 3',
+          author: 'author 3',
+          url: 'www.vk.com',
+          likes: 2
+        },
+        {
+          title: 'title 4',
+          author: 'author 4',
+          url: 'www.vk.com',
+          likes: 1
+        }
+      ]
+      for (let i = 0; i < blogsArray.length; i++) {
+        cy.createBlog(blogsArray[i])
+      }
+      const blogsLength = blogsArray.length + 1
+      cy.get('.blogList')
+        .should('have.length', blogsLength)
+      cy.get('.blogList>span.blog-title').then((blogs) => {
+        expect(blogs[0].textContent).to.equal('title 1')
+        expect(blogs[1].textContent).to.equal('title 2')
+        expect(blogs[2].textContent).to.equal('title 3')
+        expect(blogs[3].textContent).to.equal('title 4')
+      })
+
     })
 
   })

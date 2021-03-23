@@ -189,7 +189,7 @@ const App = () => {
         setBlogs(updatedBlogList)
       } catch (error) {
         const { data, statusText } = error.response
-        setMessage({
+        setErrorMessage({
           message: data.error || statusText,
           type: 'unsuccessful'
         })
